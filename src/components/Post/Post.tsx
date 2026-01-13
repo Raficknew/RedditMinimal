@@ -7,10 +7,14 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { Comment } from "../Comment/Comment";
+import type {
+  Comment as CommentType,
+  Post as PostType,
+} from "../../types/types";
 
-export function Post() {
+export function Post({ post }: { post: PostType }) {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState<CommentType[] | null>(null);
   const [showComments, setShowComments] = useState(false);
 
   return (
@@ -40,22 +44,32 @@ export function Post() {
         />
       </div>
       <div className="flex flex-col w-full justify-between min-h-25">
-        <h3 className="text-[#444444] font-bold text-lg">
-          Making Friends Monday! Share your game tags here!
-        </h3>
+        <h3 className="text-[#444444] font-bold text-lg">{post.title}</h3>
         <div className="h-10" />
         <div>
           <div className="bg-gray-200 h-px *:" />
           <div className="flex justify-between text-xs p-2">
-            <p className="text-blue-700 font-semibold">Auto Moderator</p>
-            <p className="text-gray-400">a month ago</p>
+            <p className="text-blue-700 font-semibold">{post.author}</p>
+            <p className="text-gray-400">{post.postDate}</p>
             <div
               className={cn(
                 "flex items-center gap-1 cursor-pointer",
                 showComments && "text-blue-700"
               )}
               onClick={() => {
-                setComments([1, 2, 3, 4]);
+                setComments([
+                  {
+                    author: "User1",
+                    content: "Nice post!",
+                    postDate: "2 hours ago",
+                  },
+                  {
+                    author: "User2",
+                    content:
+                      "Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!",
+                    postDate: "1 hour ago",
+                  },
+                ]);
                 setShowComments((prev) => !prev);
               }}
             >
@@ -70,10 +84,10 @@ export function Post() {
               <p>25</p>
             </div>
           </div>
-          {showComments && (
-            <div>
+          {showComments && comments && (
+            <div className="flex flex-col gap-8">
               {comments.map((comment) => {
-                return <Comment key={comment} />;
+                return <Comment key={comment.author} comment={comment} />;
               })}
             </div>
           )}
