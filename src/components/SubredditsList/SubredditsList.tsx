@@ -38,9 +38,9 @@ function Subreddit({
     <div
       onClick={onClick}
       className={cn(
-        "flex items-center cursor-pointer h-13",
+        "flex items-center cursor-pointer h-13 hover:bg-gray-100",
         selected &&
-          "bg-indigo-400 border-l-5 text-indigo-700 font-semibold border-indigo-700 pl-3"
+          "bg-indigo-400 border-l-5 text-indigo-700 hover:bg-indigo-400 font-semibold border-indigo-700 pl-3"
       )}
     >
       {subreddit.name}
