@@ -1,3 +1,4 @@
+import { cn } from "../../lib/utils";
 import type { Subreddit } from "./subreddits";
 
 export function SubredditsList({
@@ -36,10 +37,11 @@ function Subreddit({
   return (
     <div
       onClick={onClick}
-      className={`flex items-center cursor-pointer h-13 ${
+      className={cn(
+        "flex items-center cursor-pointer h-13",
         selected &&
-        "bg-indigo-400 border-l-5 text-indigo-700 font-semibold border-indigo-700 pl-3"
-      }`}
+          "bg-indigo-400 border-l-5 text-indigo-700 font-semibold border-indigo-700 pl-3"
+      )}
     >
       {subreddit.name}
     </div>
