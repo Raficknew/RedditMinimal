@@ -11,7 +11,7 @@ export function SubredditsList({
   onSubredditClick: (endpoint: string) => void;
 }) {
   return (
-    <aside className="flex flex-col w-full md:w-125 p-4 bg-white shadow-lg">
+    <aside className="flex max-h-300 flex-col w-full md:w-125 p-4 bg-white shadow-lg">
       <h2 className="text-2xl text-[#444444] font-semibold">Subreddits</h2>
       {subreddits.map((subreddit) => (
         <Subreddit

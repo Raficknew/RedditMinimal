@@ -3,6 +3,7 @@ export type Post = {
   title: string;
   likesCount: number;
   commentsCount: number;
+  pictureUrl: string;
   postDate: string;
 };
 

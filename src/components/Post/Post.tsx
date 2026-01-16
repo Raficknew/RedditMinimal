@@ -33,7 +33,7 @@ export function Post({ post }: { post: PostType }) {
             isLiked === false && "text-red-400"
           )}
         >
-          0
+          {post.likesCount}
         </p>
         <HugeiconsIcon
           onClick={() =>
@@ -45,7 +45,17 @@ export function Post({ post }: { post: PostType }) {
       </div>
       <div className="flex flex-col w-full justify-between min-h-25">
         <h3 className="text-[#444444] font-bold text-lg">{post.title}</h3>
-        <div className="h-10" />
+
+        {post.pictureUrl && post.pictureUrl.startsWith("http") ? (
+          <img
+            src={post.pictureUrl}
+            alt={post.title}
+            className="flex w-full h-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="h-10" />
+        )}
         <div>
           <div className="bg-gray-200 h-px *:" />
           <div className="flex justify-between text-xs p-2">
@@ -81,7 +91,7 @@ export function Post({ post }: { post: PostType }) {
                 icon={Comment02Icon}
                 size={16}
               />
-              <p>25</p>
+              <p>{post.commentsCount}</p>
             </div>
           </div>
           {showComments && comments && (
