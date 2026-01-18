@@ -6,7 +6,11 @@ import { SubredditsList } from "./components/SubredditsList/SubredditsList";
 import { SUBREDDITS } from "./components/SubredditsList/subreddits";
 import { PostList } from "./components/PostList/PostList";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-import { fetchInitialPosts, postSelector } from "./store/postSlice";
+import {
+  fetchInitialPosts,
+  fetchSearchedPosts,
+  postSelector,
+} from "./store/postSlice";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,17 +24,23 @@ function App() {
     return searchParams.get("searchTerm");
   }, [searchParams]);
 
+  const errorMessage =
+    postError && searchTerm !== ""
+      ? `No posts found for ${searchTerm}`
+      : "Error while loading posts";
+
   useEffect(() => {
     dispatch(fetchInitialPosts());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   fetch("https://www.reddit.com/r/Polska/hot.json?limit=10")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setPosts(data.data.children.map((child) => child.data));
-  //     });
-  // }, []);
+  useEffect(() => {
+    if (searchTerm) {
+      console.log(searchTerm, subredditEndpoint);
+      dispatch(
+        fetchSearchedPosts({ subreddit: subredditEndpoint, query: searchTerm })
+      );
+    }
+  }, [searchTerm, subredditEndpoint, dispatch]);
 
   return (
     <div className="flex flex-col w-full h-full gap-4">
@@ -38,6 +48,8 @@ function App() {
       <main className="flex flex-col md:flex-row gap-4 px-4 w-full">
         {isLoadingPosts ? (
           <p className="w-full">Loading posts...</p>
+        ) : postError ? (
+          <p className="w-full">{errorMessage}</p>
         ) : (
           <PostList posts={posts} />
         )}
