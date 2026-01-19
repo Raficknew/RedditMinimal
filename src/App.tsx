@@ -1,22 +1,17 @@
 import { useSearchParams } from "react-router";
 import "./App.css";
 import { NavBar } from "./components/NavBar/NavBar";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SubredditsList } from "./components/SubredditsList/SubredditsList";
 import { SUBREDDITS } from "./components/SubredditsList/subreddits";
 import { PostList } from "./components/PostList/PostList";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-import {
-  fetchInitialPosts,
-  fetchSearchedPosts,
-  postSelector,
-} from "./store/postSlice";
+import { fetchPosts, postSelector } from "./store/postSlice";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [subredditEndpoint, setSubredditEndpoint] = useState<string | null>(
-    null
-  );
+  const [subredditEndpoint, setSubredditEndpoint] =
+    useState<string>("r/popular");
   const { posts, isLoadingPosts, postError } = useAppSelector(postSelector);
   const dispatch = useAppDispatch();
 
@@ -30,16 +25,9 @@ function App() {
       : "Error while loading posts";
 
   useEffect(() => {
-    dispatch(fetchInitialPosts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (searchTerm) {
-      console.log(searchTerm, subredditEndpoint);
-      dispatch(
-        fetchSearchedPosts({ subreddit: subredditEndpoint, query: searchTerm })
-      );
-    }
+    dispatch(
+      fetchPosts({ subreddit: subredditEndpoint, query: searchTerm || "new" }),
+    );
   }, [searchTerm, subredditEndpoint, dispatch]);
 
   return (

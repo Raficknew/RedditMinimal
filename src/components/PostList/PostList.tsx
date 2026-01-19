@@ -5,7 +5,7 @@ export function PostList({ posts }: { posts: PostType[] }) {
   return (
     <div className="flex flex-col w-full gap-8">
       {posts.map((post) => (
-        <Post key={post.title} post={post} />
+        <Post key={post.id} post={post} />
       ))}
     </div>
   );
