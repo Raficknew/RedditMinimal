@@ -7,6 +7,7 @@ import { SUBREDDITS } from "./components/SubredditsList/subreddits";
 import { PostList } from "./components/PostList/PostList";
 import { useAppDispatch, useAppSelector } from "./hooks/hooks";
 import { fetchPosts, postSelector } from "./store/postSlice";
+import { PostSkeleton } from "./components/Skeletons/PostSkeleton";
 
 function App() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -35,7 +36,11 @@ function App() {
       <NavBar setSearchParams={setSearchParams} />
       <main className="flex flex-col md:flex-row gap-4 px-4 w-full">
         {isLoadingPosts ? (
-          <p className="w-full">Loading posts...</p>
+          <div className="flex flex-col w-full gap-8">
+            {Array.from({ length: 20 }).map((_, index) => (
+              <PostSkeleton key={index} />
+            ))}
+          </div>
         ) : postError ? (
           <p className="w-full">{errorMessage}</p>
         ) : (

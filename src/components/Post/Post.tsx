@@ -19,7 +19,7 @@ export function Post({ post }: { post: PostType }) {
 
   return (
     <div className="flex gap-6 p-6 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center w-12">
         <HugeiconsIcon
           onClick={() =>
             setIsLiked((prevValue) => (prevValue === true ? null : true))
@@ -30,7 +30,7 @@ export function Post({ post }: { post: PostType }) {
         <p
           className={cn(
             isLiked === true && "text-green-400",
-            isLiked === false && "text-red-400"
+            isLiked === false && "text-red-400",
           )}
         >
           {post.likesCount}
@@ -59,12 +59,12 @@ export function Post({ post }: { post: PostType }) {
         <div>
           <div className="bg-gray-200 h-px *:" />
           <div className="flex justify-between text-xs p-2">
-            <p className="text-blue-700 font-semibold">{post.author}</p>
+            <p className="text-blue-700 font-semibold w-16">{post.author}</p>
             <p className="text-gray-400">{post.postDate}</p>
             <div
               className={cn(
-                "flex items-center gap-1 cursor-pointer",
-                showComments && "text-blue-700"
+                "flex items-center gap-1 cursor-pointer w-16",
+                showComments && "text-blue-700",
               )}
               onClick={() => {
                 setComments([
@@ -86,7 +86,7 @@ export function Post({ post }: { post: PostType }) {
               <HugeiconsIcon
                 className={cn(
                   "cursor-pointer",
-                  showComments && "text-blue-700"
+                  showComments && "text-blue-700",
                 )}
                 icon={Comment02Icon}
                 size={16}
