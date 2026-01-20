@@ -4,18 +4,31 @@ import {
   Comment02Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
 import { Comment } from "../Comment/Comment";
-import type {
-  Comment as CommentType,
-  Post as PostType,
-} from "../../types/types";
+import type { Post as PostType } from "../../types/types";
+import {
+  commentSelector,
+  fetchCommentsForPostById,
+} from "../../store/commentsSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 export function Post({ post }: { post: PostType }) {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
-  const [comments, setComments] = useState<CommentType[] | null>(null);
   const [showComments, setShowComments] = useState(false);
+  const dispatch = useAppDispatch();
+  const { comments, isLoadingComments, commentError } =
+    useAppSelector(commentSelector);
+  const [hasFetchedComments, setHasFetchedComments] = useState(false);
+
+  useEffect(() => {
+    if (!hasFetchedComments && showComments) {
+      dispatch(fetchCommentsForPostById(post.id)).finally(() =>
+        setHasFetchedComments(true),
+      );
+    }
+  }, [post, dispatch, hasFetchedComments, showComments]);
 
   return (
     <div className="flex gap-6 p-6 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
@@ -50,7 +63,7 @@ export function Post({ post }: { post: PostType }) {
           <img
             src={post.pictureUrl}
             alt={post.title}
-            className="flex w-full h-full object-cover"
+            className="flex w-full h-full min-h-10 object-cover"
             loading="lazy"
           />
         ) : (
@@ -59,29 +72,14 @@ export function Post({ post }: { post: PostType }) {
         <div>
           <div className="bg-gray-200 h-px *:" />
           <div className="flex justify-between text-xs p-2">
-            <p className="text-blue-700 font-semibold w-16">{post.author}</p>
+            <p className="text-blue-700 font-semibold w-25">{post.author}</p>
             <p className="text-gray-400">{post.postDate}</p>
             <div
               className={cn(
-                "flex items-center gap-1 cursor-pointer w-16",
+                "flex items-center justify-end gap-1 cursor-pointer w-25",
                 showComments && "text-blue-700",
               )}
-              onClick={() => {
-                setComments([
-                  {
-                    author: "User1",
-                    content: "Nice post!",
-                    postDate: "2 hours ago",
-                  },
-                  {
-                    author: "User2",
-                    content:
-                      "Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!Thanks for sharing!",
-                    postDate: "1 hour ago",
-                  },
-                ]);
-                setShowComments((prev) => !prev);
-              }}
+              onClick={() => setShowComments((prev) => !prev)}
             >
               <HugeiconsIcon
                 className={cn(
@@ -97,7 +95,7 @@ export function Post({ post }: { post: PostType }) {
           {showComments && comments && (
             <div className="flex flex-col gap-8">
               {comments.map((comment) => {
-                return <Comment key={comment.author} comment={comment} />;
+                return <Comment key={comment.id} comment={comment} />;
               })}
             </div>
           )}
