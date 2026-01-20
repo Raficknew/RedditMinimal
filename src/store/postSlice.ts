@@ -3,7 +3,7 @@ import type { Post } from "../types/types";
 
 const fetchPosts = createAsyncThunk(
   "posts/fetchSearchedPosts",
-  async ({ subreddit, query }, thunkAPI) => {
+  async ({ subreddit, query }: { subreddit: string; query: string }) => {
     const response = await fetch(
       `https://www.reddit.com/${subreddit}/search.json?q=${query}&restrict_sr=1&limit=20`,
     );

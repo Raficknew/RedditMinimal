@@ -7,20 +7,25 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
 import { Comment } from "../Comment/Comment";
-import type { Post as PostType } from "../../types/types";
-import {
-  commentSelector,
-  fetchCommentsForPostById,
-} from "../../store/commentsSlice";
+import type {
+  Comment as CommentType,
+  Post as PostType,
+} from "../../types/types";
+import { fetchCommentsForPostById } from "../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { CommentSkeleton } from "../Skeletons/CommentSkeleton";
 
 export function Post({ post }: { post: PostType }) {
   const [isLiked, setIsLiked] = useState<boolean | null>(null);
   const [showComments, setShowComments] = useState(false);
   const dispatch = useAppDispatch();
-  const { comments, isLoadingComments, commentError } =
-    useAppSelector(commentSelector);
   const [hasFetchedComments, setHasFetchedComments] = useState(false);
+  const { comments, isLoadingComments, commentError } = useAppSelector(
+    (state) => state.comments,
+  );
+  const postComments: CommentType[] = comments[post.id]
+    ? comments[post.id].data
+    : [];
 
   useEffect(() => {
     if (!hasFetchedComments && showComments) {
@@ -71,7 +76,7 @@ export function Post({ post }: { post: PostType }) {
         )}
         <div>
           <div className="bg-gray-200 h-px *:" />
-          <div className="flex justify-between text-xs p-2">
+          <div className="flex justify-between flex-wrap text-xs p-2">
             <p className="text-blue-700 font-semibold w-25">{post.author}</p>
             <p className="text-gray-400">{post.postDate}</p>
             <div
@@ -92,11 +97,17 @@ export function Post({ post }: { post: PostType }) {
               <p>{post.commentsCount}</p>
             </div>
           </div>
-          {showComments && comments && (
+          {isLoadingComments &&
+            showComments &&
+            Array.from({ length: 12 }).map((_, index) => (
+              <CommentSkeleton key={index} />
+            ))}
+          {showComments && postComments && (
             <div className="flex flex-col gap-8">
-              {comments.map((comment) => {
+              {postComments.map((comment) => {
                 return <Comment key={comment.id} comment={comment} />;
               })}
+              <p className="self-center">More...</p>
             </div>
           )}
         </div>

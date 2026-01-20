@@ -2,12 +2,12 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const fetchCommentsForPostById = createAsyncThunk(
   "comments/fetchCommentsForPostById",
-  async (postId: string, thunkAPI) => {
+  async (postId: string) => {
     const response = await fetch(
       `https://www.reddit.com/comments/${postId}.json?limit=20`,
     );
     const data = await response.json();
-    console.log({
+    return {
       [postId]: {
         data: data[1].data.children
           .filter((child) => child.kind === "t1")
@@ -21,13 +21,12 @@ const fetchCommentsForPostById = createAsyncThunk(
             };
           }),
       },
-    });
-    return;
+    };
   },
 );
 
 export type CommentState = {
-  comments: Comment[];
+  comments: { [x: string]: { data: Comment[] } };
   isLoadingComments: boolean;
   commentError: boolean;
 };
@@ -50,7 +49,7 @@ const commentSlice = createSlice({
       })
       .addCase(fetchCommentsForPostById.fulfilled, (state, action) => {
         state.isLoadingComments = false;
-        state.comments = action.payload;
+        state.comments = { ...state.comments, ...action.payload };
         state.commentError = false;
       })
       .addCase(fetchCommentsForPostById.rejected, (state) => {
@@ -59,9 +58,6 @@ const commentSlice = createSlice({
       });
   },
 });
-
-export const commentSelector = (state: { comments: CommentState }) =>
-  state.comments;
 
 export { fetchCommentsForPostById };
 export default commentSlice.reducer;
