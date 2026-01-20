@@ -1,5 +1,6 @@
+import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "../../lib/utils";
-import type { Subreddit } from "./subreddits";
+import type { Subreddit } from "../../types/types";
 
 export function SubredditsList({
   subreddits,
@@ -38,11 +39,12 @@ function Subreddit({
     <div
       onClick={onClick}
       className={cn(
-        "flex items-center cursor-pointer h-13 hover:bg-gray-100",
+        "flex items-center cursor-pointer h-13 hover:bg-gray-100 gap-2",
         selected &&
-          "bg-indigo-400 border-l-5 text-indigo-700 hover:bg-indigo-400 font-semibold border-indigo-700 pl-3"
+          "bg-indigo-400 border-l-5 text-indigo-700 hover:bg-indigo-400 font-semibold border-indigo-700 pl-3",
       )}
     >
+      <HugeiconsIcon icon={subreddit.icon} />
       {subreddit.name}
     </div>
   );

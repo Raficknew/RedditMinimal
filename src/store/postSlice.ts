@@ -18,7 +18,7 @@ const fetchPosts = createAsyncThunk(
         title: post.title,
         likesCount: post.score,
         commentsCount: post.num_comments,
-        pictureUrl: post.thumbnail,
+        pictureUrl: post.url_overridden_by_dest,
         postDate: new Date(post.created_utc * 1000).toDateString(),
       }));
   },

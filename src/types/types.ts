@@ -1,3 +1,5 @@
+import type { IconSvgElement } from "@hugeicons/react";
+
 export type Post = {
   id: string;
   author: string;
@@ -13,4 +15,10 @@ export type CommentType = {
   author: string;
   content: string;
   postDate: string;
+};
+
+export type Subreddit = {
+  name: string;
+  endpoint: string;
+  icon: IconSvgElement;
 };

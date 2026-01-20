@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { CommentType } from "../types/types";
+import type { RedditApiResponse } from "../types/responses";
 
 const fetchCommentsForPostById = createAsyncThunk(
   "comments/fetchCommentsForPostById",
@@ -7,7 +8,7 @@ const fetchCommentsForPostById = createAsyncThunk(
     const response = await fetch(
       `https://www.reddit.com/comments/${postId}.json?limit=20`,
     );
-    const data = await response.json();
+    const data: RedditApiResponse[] = await response.json();
     return {
       [postId]: {
         data: data[1].data.children

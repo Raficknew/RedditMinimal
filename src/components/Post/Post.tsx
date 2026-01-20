@@ -68,7 +68,6 @@ export function Post({ post }: { post: PostType }) {
             alt={post.title}
             onError={() => setHasPhotoError(true)}
             className="flex w-full h-full min-h-10 object-cover"
-            loading="lazy"
           />
         ) : (
           <div className="h-10" />
