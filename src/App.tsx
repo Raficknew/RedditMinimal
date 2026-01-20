@@ -21,9 +21,7 @@ function App() {
   }, [searchParams]);
 
   const errorMessage =
-    postError && searchTerm !== ""
-      ? `No posts found for ${searchTerm}`
-      : "Error while loading posts";
+    (posts.length === 0 && `No posts found for ${searchTerm}`) || postError;
 
   useEffect(() => {
     dispatch(
@@ -41,8 +39,10 @@ function App() {
               <PostSkeleton key={index} />
             ))}
           </div>
-        ) : postError ? (
-          <p className="w-full">{errorMessage}</p>
+        ) : postError || posts.length === 0 ? (
+          <p className="w-full text-center text-2xl text-[#6f6f6f] font-bold">
+            {errorMessage}
+          </p>
         ) : (
           <PostList posts={posts} />
         )}

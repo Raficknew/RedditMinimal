@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { Post } from "../types/types";
+import type { ApiPostResponse } from "../types/responses";
 
 const fetchPosts = createAsyncThunk(
   "posts/fetchSearchedPosts",
@@ -8,7 +9,7 @@ const fetchPosts = createAsyncThunk(
       `https://www.reddit.com/${subreddit}/search.json?q=${query}&restrict_sr=1&limit=20`,
     );
 
-    const data = await response.json();
+    const data: ApiPostResponse = await response.json();
     return data.data.children
       .map((child) => child.data)
       .map((post) => ({

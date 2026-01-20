@@ -7,7 +7,7 @@ import { LoadingBox } from "./LoadingBox";
 
 export function PostSkeleton() {
   return (
-    <div className="flex gap-6 p-6 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
+    <div className="flex gap-4 p-4 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
       <div className="flex flex-col items-center w-12">
         <HugeiconsIcon icon={ArrowUp02FreeIcons} />
         <LoadingBox height="h-6" />

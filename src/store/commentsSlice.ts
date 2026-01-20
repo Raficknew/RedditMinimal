@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import type { CommentType } from "../types/types";
 
 const fetchCommentsForPostById = createAsyncThunk(
   "comments/fetchCommentsForPostById",
@@ -26,13 +27,13 @@ const fetchCommentsForPostById = createAsyncThunk(
 );
 
 export type CommentState = {
-  comments: { [x: string]: { data: Comment[] } };
+  comments: { [x: string]: { data: CommentType[] } };
   isLoadingComments: boolean;
   commentError: boolean;
 };
 
-const initialState = {
-  comments: [],
+const initialState: CommentState = {
+  comments: {},
   isLoadingComments: false,
   commentError: false,
 };

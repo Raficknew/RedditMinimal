@@ -7,10 +7,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useEffect, useState } from "react";
 import { cn } from "../../lib/utils";
 import { Comment } from "../Comment/Comment";
-import type {
-  Comment as CommentType,
-  Post as PostType,
-} from "../../types/types";
+import type { Post as PostType } from "../../types/types";
 import { fetchCommentsForPostById } from "../../store/commentsSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { CommentSkeleton } from "../Skeletons/CommentSkeleton";
@@ -23,9 +20,8 @@ export function Post({ post }: { post: PostType }) {
   const { comments, isLoadingComments, commentError } = useAppSelector(
     (state) => state.comments,
   );
-  const postComments: CommentType[] = comments[post.id]
-    ? comments[post.id].data
-    : [];
+  const postComments = comments[post.id] ? comments[post.id].data : [];
+  const [hasPhotoError, setHasPhotoError] = useState(false);
 
   useEffect(() => {
     if (!hasFetchedComments && showComments) {
@@ -36,8 +32,8 @@ export function Post({ post }: { post: PostType }) {
   }, [post, dispatch, hasFetchedComments, showComments]);
 
   return (
-    <div className="flex gap-6 p-6 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
-      <div className="flex flex-col items-center w-12">
+    <div className="flex gap-6 p-4  w-full bg-white shadow-md hover:shadow-xl rounded-lg">
+      <div className="flex flex-col items-center">
         <HugeiconsIcon
           onClick={() =>
             setIsLiked((prevValue) => (prevValue === true ? null : true))
@@ -64,10 +60,13 @@ export function Post({ post }: { post: PostType }) {
       <div className="flex flex-col w-full justify-between min-h-25">
         <h3 className="text-[#444444] font-bold text-lg">{post.title}</h3>
 
-        {post.pictureUrl && post.pictureUrl.startsWith("http") ? (
+        {post.pictureUrl &&
+        post.pictureUrl.startsWith("https") &&
+        !hasPhotoError ? (
           <img
             src={post.pictureUrl}
             alt={post.title}
+            onError={() => setHasPhotoError(true)}
             className="flex w-full h-full min-h-10 object-cover"
             loading="lazy"
           />
@@ -99,10 +98,14 @@ export function Post({ post }: { post: PostType }) {
           </div>
           {isLoadingComments &&
             showComments &&
+            !commentError &&
             Array.from({ length: 12 }).map((_, index) => (
               <CommentSkeleton key={index} />
             ))}
-          {showComments && postComments && (
+          {commentError && showComments && (
+            <p className="text-red-500 text-center">Failed to load comments.</p>
+          )}
+          {showComments && postComments && !commentError && (
             <div className="flex flex-col gap-8">
               {postComments.map((comment) => {
                 return <Comment key={comment.id} comment={comment} />;
