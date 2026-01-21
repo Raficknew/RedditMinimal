@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { CommentType } from "../types/types";
+import type { Comment } from "../types/types";
 import type { RedditApiResponse } from "../types/responses";
+
+const takeOnlyFewNewestComments = ({ kind }: { kind: string }) => {
+  return kind === "t1";
+};
 
 const fetchCommentsForPostById = createAsyncThunk(
   "comments/fetchCommentsForPostById",
@@ -12,7 +16,7 @@ const fetchCommentsForPostById = createAsyncThunk(
     return {
       [postId]: {
         data: data[1].data.children
-          .filter((child) => child.kind === "t1")
+          .filter(takeOnlyFewNewestComments)
           .map((child) => {
             const comment = child.data;
             return {
@@ -28,7 +32,7 @@ const fetchCommentsForPostById = createAsyncThunk(
 );
 
 export type CommentState = {
-  comments: { [x: string]: { data: CommentType[] } };
+  comments: { [postId: string]: { data: Comment[] } };
   isLoadingComments: boolean;
   commentError: boolean;
 };

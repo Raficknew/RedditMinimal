@@ -10,7 +10,7 @@ export type Post = {
   postDate: string;
 };
 
-export type CommentType = {
+export type Comment = {
   id: string;
   author: string;
   content: string;

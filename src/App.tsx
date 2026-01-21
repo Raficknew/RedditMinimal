@@ -33,19 +33,21 @@ function App() {
     <div className="flex flex-col w-full h-full gap-4">
       <NavBar setSearchParams={setSearchParams} />
       <main className="flex flex-col md:flex-row gap-4 px-4 w-full">
-        {isLoadingPosts ? (
+        {isLoadingPosts && (
           <div className="flex flex-col w-full gap-8">
             {Array.from({ length: 20 }).map((_, index) => (
               <PostSkeleton key={index} />
             ))}
           </div>
-        ) : postError || posts.length === 0 ? (
+        )}
+
+        {!isLoadingPosts && (postError || posts.length === 0) && (
           <p className="w-full text-center text-2xl text-[#6f6f6f] font-bold">
             {errorMessage}
           </p>
-        ) : (
-          <PostList posts={posts} />
         )}
+
+        {posts.length > 0 && !isLoadingPosts && <PostList posts={posts} />}
 
         <SubredditsList
           subreddits={SUBREDDITS.categories}
