@@ -1,135 +1,157 @@
-export type Subreddit = {
-  name: string;
-  endpoint: string;
-  icon: string;
-};
+import {
+  AdobeXdIcon,
+  AiCloud01Icon,
+  Alien01Icon,
+  ArtificialIntelligence02Icon,
+  BodyPartMuscleIcon,
+  Book03Icon,
+  Books02Icon,
+  Brain03Icon,
+  BrushIcon,
+  CalculatorIcon,
+  Camera01Icon,
+  ChatQuestionIcon,
+  ChickenThighsIcon,
+  DimSum02Icon,
+  EarthIcon,
+  FavouriteIcon,
+  GameController03Icon,
+  JokerIcon,
+  MicroscopeIcon,
+  MusicNoteSquare02Icon,
+  NewsIcon,
+  StarFaceIcon,
+  Tv02Icon,
+  UserQuestion01Icon,
+  Video01Icon,
+} from "@hugeicons/core-free-icons";
 
 export const SUBREDDITS = {
   categories: [
     {
       name: "funny",
       endpoint: "r/funny",
-      icon: "",
+      icon: StarFaceIcon,
     },
     {
       name: "askreddit",
       endpoint: "r/AskReddit",
-      icon: "",
+      icon: ChatQuestionIcon,
     },
     {
       name: "gaming",
       endpoint: "r/gaming",
-      icon: "",
+      icon: GameController03Icon,
     },
     {
       name: "worldnews",
       endpoint: "r/worldnews",
-      icon: "",
+      icon: EarthIcon,
     },
     {
       name: "todayilearned",
       endpoint: "r/todayilearned",
-      icon: "",
+      icon: Book03Icon,
     },
     {
       name: "music",
       endpoint: "r/Music",
-      icon: "",
+      icon: MusicNoteSquare02Icon,
     },
     {
       name: "aww",
       endpoint: "r/aww",
-      icon: "",
+      icon: FavouriteIcon,
     },
     {
       name: "movies",
       endpoint: "r/movies",
-      icon: "",
+      icon: Tv02Icon,
     },
     {
       name: "memes",
       endpoint: "r/memes",
-      icon: "",
+      icon: AdobeXdIcon,
     },
     {
       name: "science",
       endpoint: "r/science",
-      icon: "",
+      icon: MicroscopeIcon,
     },
     {
       name: "showerthoughts",
       endpoint: "r/Showerthoughts",
-      icon: "",
+      icon: Brain03Icon,
     },
     {
       name: "pics",
       endpoint: "r/pics",
-      icon: "",
+      icon: Camera01Icon,
     },
     {
       name: "news",
       endpoint: "r/news",
-      icon: "",
+      icon: NewsIcon,
     },
     {
       name: "jokes",
       endpoint: "r/Jokes",
-      icon: "",
+      icon: JokerIcon,
     },
     {
       name: "space",
       endpoint: "r/space",
-      icon: "",
+      icon: Alien01Icon,
     },
     {
       name: "diy",
       endpoint: "r/DIY",
-      icon: "",
+      icon: DimSum02Icon,
     },
     {
       name: "books",
       endpoint: "r/books",
-      icon: "",
+      icon: Books02Icon,
     },
     {
       name: "videos",
       endpoint: "r/videos",
-      icon: "",
+      icon: Video01Icon,
     },
     {
       name: "askscience",
       endpoint: "r/askscience",
-      icon: "",
+      icon: CalculatorIcon,
     },
     {
       name: "nottheonion",
       endpoint: "r/nottheonion",
-      icon: "",
+      icon: ArtificialIntelligence02Icon,
     },
     {
       name: "mildlyinteresting",
       endpoint: "r/mildlyinteresting",
-      icon: "",
+      icon: AiCloud01Icon,
     },
     {
       name: "food",
       endpoint: "r/food",
-      icon: "",
+      icon: ChickenThighsIcon,
     },
     {
       name: "getmotivated",
       endpoint: "r/GetMotivated",
-      icon: "",
+      icon: BodyPartMuscleIcon,
     },
     {
       name: "art",
       endpoint: "r/Art",
-      icon: "",
+      icon: BrushIcon,
     },
     {
       name: "explainlikeimfive",
       endpoint: "r/explainlikeimfive",
-      icon: "",
+      icon: UserQuestion01Icon,
     },
   ],
 };
