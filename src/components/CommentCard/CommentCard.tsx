@@ -2,12 +2,14 @@ import type { Comment } from "../../types/types";
 
 export function CommentCard({ comment }: { comment: Comment }) {
   return (
-    <div className="flex flex-col gap-2 bg-[#fcfcfc] p-4 hover:shadow-lg rounded-sm">
-      <div className="flex flex-col md:flex-row justify-between">
+    <div className="flex flex-1 min-w-0 flex-col max-w-full p-4  bg-white shadow-md hover:shadow-xl rounded-lg">
+      <div className="flex justify-between flex-col md:flex-row">
         <p>{comment.author}</p>
         <p className="text-md italic text-gray-500">{comment.postDate}</p>
       </div>
-      <p className="wrap-break-word">{comment.content}</p>
+      <div className="w-full">
+        <p className="break-all ">{comment.content}</p>
+      </div>
     </div>
   );
 }

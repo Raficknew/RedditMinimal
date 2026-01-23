@@ -99,29 +99,26 @@ export function PostCard({ post }: { post: Post }) {
               <span>{post.commentsCount}</span>
             </div>
           </div>
-
-          <div className="bg-red-400">
-            {showComments && (
-              <div className="space-y-4">
-                {isLoadingComments &&
-                  postComments.length === 0 &&
-                  Array.from({ length: 5 }).map((_, i) => (
-                    <CommentSkeleton key={i} />
-                  ))}
-
-                {commentError && (
-                  <p className="text-red-500 text-sm text-center py-2">
-                    Failed to load comments.
-                  </p>
-                )}
-
-                {postComments.map((comment) => (
-                  <CommentCard key={comment.id} comment={comment} />
-                ))}
-              </div>
-            )}
-          </div>
         </div>
+        {showComments && (
+          <div className="flex flex-col space-y-4">
+            {isLoadingComments &&
+              postComments.length === 0 &&
+              Array.from({ length: 5 }).map((_, i) => (
+                <CommentSkeleton key={i} />
+              ))}
+
+            {commentError && (
+              <p className="text-red-500 text-sm text-center py-2">
+                Failed to load comments.
+              </p>
+            )}
+
+            {postComments.map((comment) => (
+              <CommentCard key={comment.id} comment={comment} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
