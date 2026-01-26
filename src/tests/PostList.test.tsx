@@ -13,7 +13,7 @@ describe("PostList", () => {
         author: "MockUser1",
         commentsCount: 10,
         likesCount: 5,
-        postDate: "2024-01-01T00:00:00Z",
+        postDate: "a month ago",
         pictureUrl: "https://via.placeholder.com/150",
       },
       {
@@ -22,7 +22,7 @@ describe("PostList", () => {
         author: "MockUser2",
         commentsCount: 20,
         likesCount: 15,
-        postDate: "2024-01-02T00:00:00Z",
+        postDate: "a month ago",
         pictureUrl: "https://via.placeholder.com/150",
       },
       {
@@ -31,7 +31,7 @@ describe("PostList", () => {
         author: "MockUser3",
         commentsCount: 30,
         likesCount: 25,
-        postDate: "2024-01-03T00:00:00Z",
+        postDate: "a month ago",
         pictureUrl: "https://via.placeholder.com/150",
       },
     ];

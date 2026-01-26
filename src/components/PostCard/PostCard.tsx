@@ -43,6 +43,7 @@ export function PostCard({ post }: { post: Post }) {
             "cursor-pointer transition-colors",
             isLiked === true && "text-green-400",
           )}
+          data-testid="up-vote-arrow"
           icon={ArrowUp02Icon}
         />
         <p
@@ -72,7 +73,7 @@ export function PostCard({ post }: { post: Post }) {
           <div className="w-full mb-4 overflow-hidden rounded-md">
             <img
               src={post.pictureUrl}
-              alt={post.title}
+              alt="image for post"
               onError={() => setHasPhotoError(true)}
               className="w-full max-h-128 object-contain"
             />
