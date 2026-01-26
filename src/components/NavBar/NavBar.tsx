@@ -24,7 +24,7 @@ export function NavBar({
       >
         <input
           className="bg-[#f3f3f3] w-full text-xs p-2 indent-2 rounded-sm"
-          type="text"
+          type="search"
           placeholder="Search"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

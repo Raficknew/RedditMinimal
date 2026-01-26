@@ -32,7 +32,10 @@ export function PostCard({ post }: { post: Post }) {
   };
 
   return (
-    <div className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
+    <div
+      role="post"
+      className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md hover:shadow-xl rounded-lg"
+    >
       <div className="flex flex-col items-center w-14">
         <HugeiconsIcon
           onClick={() => setIsLiked((prev) => (prev === true ? null : true))}
