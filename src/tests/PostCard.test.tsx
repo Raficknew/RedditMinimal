@@ -130,6 +130,9 @@ describe("PostCard", () => {
     expect(commentsButton).toBeInTheDocument();
 
     await user.click(commentsButton);
+
+    const commentsSection = screen.getByTestId("comments-section");
+    expect(commentsSection).toBeInTheDocument();
   });
   it("should hide comments section when comments button is clicked again", async () => {
     const user = userEvent.setup();
@@ -178,5 +181,34 @@ describe("PostCard", () => {
     await user.click(screen.getByRole("button"));
 
     expect(dispatchMock).not.toHaveBeenCalled();
+  });
+  it("should show CommentSkeletons when comments are loading", async () => {
+    const user = userEvent.setup();
+
+    vi.spyOn(hooks, "useAppSelector").mockReturnValue({
+      comments: {},
+      isLoadingComments: true,
+    });
+
+    render(<PostCard post={mockPost} />);
+    await user.click(screen.getByRole("button"));
+
+    const skeletons = await screen.findAllByTestId("comment-skeleton");
+    expect(skeletons.length).toBe(5);
+  });
+  it("should show error message when commentError is true", async () => {
+    const user = userEvent.setup();
+
+    vi.spyOn(hooks, "useAppSelector").mockReturnValue({
+      comments: {},
+      isLoadingComments: false,
+      commentError: true,
+    });
+
+    render(<PostCard post={mockPost} />);
+    await user.click(screen.getByRole("button"));
+
+    const errorMessage = await screen.findByText(/Failed to load comments./i);
+    expect(errorMessage).toBeInTheDocument();
   });
 });

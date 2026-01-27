@@ -93,7 +93,6 @@ export function PostCard({ post }: { post: Post }) {
                 "flex items-center justify-end gap-1 cursor-pointer transition-colors hover:text-blue-700",
                 showComments && "text-blue-700 font-bold",
               )}
-              disabled={isLoadingComments}
               onClick={() => {
                 if (postComments.length === 0) {
                   console.log("called");
