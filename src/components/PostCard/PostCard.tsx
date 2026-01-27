@@ -26,9 +26,7 @@ export function PostCard({ post }: { post: Post }) {
   const [hasPhotoError, setHasPhotoError] = useState(false);
 
   const fetchComments = () => {
-    if (postComments.length === 0) {
-      dispatch(fetchCommentsForPostById(post.id));
-    }
+    dispatch(fetchCommentsForPostById(post.id));
   };
 
   return (
@@ -61,6 +59,7 @@ export function PostCard({ post }: { post: Post }) {
             "cursor-pointer transition-colors",
             isLiked === false && "text-red-400",
           )}
+          data-testid="down-vote-arrow"
           icon={ArrowDown02Icon}
         />
       </div>
@@ -89,23 +88,30 @@ export function PostCard({ post }: { post: Post }) {
             </p>
             <p className="text-gray-400 text-center">{post.postDate}</p>
 
-            <div
+            <button
               className={cn(
                 "flex items-center justify-end gap-1 cursor-pointer transition-colors hover:text-blue-700",
                 showComments && "text-blue-700 font-bold",
               )}
+              disabled={isLoadingComments}
               onClick={() => {
-                fetchComments();
+                if (postComments.length === 0) {
+                  console.log("called");
+                  fetchComments();
+                }
                 setShowComments((prev) => !prev);
               }}
             >
               <HugeiconsIcon icon={Comment02Icon} size={16} />
               <span>{post.commentsCount}</span>
-            </div>
+            </button>
           </div>
         </div>
         {showComments && (
-          <div className="flex flex-col space-y-4">
+          <div
+            data-testid="comments-section"
+            className="flex flex-col space-y-4"
+          >
             {isLoadingComments &&
               postComments.length === 0 &&
               Array.from({ length: 5 }).map((_, i) => (
