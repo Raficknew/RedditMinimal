@@ -21,7 +21,7 @@ describe("Subreddit", () => {
       />,
     );
 
-    const subredditElement = screen.getByRole("subreddit");
+    const subredditElement = screen.getByTestId("subreddit");
 
     expect(subredditElement).toBeInTheDocument();
     expect(subredditElement).toHaveTextContent(/r\/test/i);
@@ -37,7 +37,7 @@ describe("Subreddit", () => {
       />,
     );
 
-    const subredditElement = screen.getByRole("subreddit");
+    const subredditElement = screen.getByTestId("subreddit");
 
     expect(subredditElement).toHaveClass(
       "bg-indigo-400",
@@ -59,7 +59,7 @@ describe("Subreddit", () => {
       />,
     );
 
-    const subredditElement = screen.getByRole("subreddit");
+    const subredditElement = screen.getByTestId("subreddit");
 
     await user.click(subredditElement);
     expect(onClickMock).toHaveBeenCalledTimes(1);

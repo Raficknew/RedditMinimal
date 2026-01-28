@@ -4,7 +4,10 @@ import { LoadingBox } from "./LoadingBox";
 
 export function PostSkeleton() {
   return (
-    <div className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md rounded-lg animate-pulse">
+    <div
+      data-testid="post-card-skeleton"
+      className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md rounded-lg animate-pulse"
+    >
       <div className="flex flex-col items-center w-14">
         <HugeiconsIcon icon={ArrowUp02Icon} className="text-gray-200" />
         <div className="py-1">

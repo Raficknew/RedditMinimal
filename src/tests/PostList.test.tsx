@@ -37,7 +37,7 @@ describe("PostList", () => {
     ];
     render(<PostList posts={posts} />);
 
-    const postElements = screen.getAllByRole("post");
+    const postElements = screen.getAllByTestId("post-card");
     expect(postElements).toHaveLength(posts.length);
     postElements.forEach((post, index) => {
       expect(post).toHaveTextContent(posts[index].title);

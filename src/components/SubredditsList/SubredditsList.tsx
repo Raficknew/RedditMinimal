@@ -38,7 +38,7 @@ export function Subreddit({
 }) {
   return (
     <div
-      role="subreddit"
+      data-testid="subreddit"
       onClick={onClick}
       className={cn(
         "flex items-center cursor-pointer h-13 hover:bg-gray-100 gap-2",

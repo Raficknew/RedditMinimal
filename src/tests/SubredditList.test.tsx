@@ -30,7 +30,7 @@ describe("SubredditList", () => {
     );
 
     expect(screen.getByText("Subreddits")).toBeInTheDocument();
-    const subredditElements = screen.getAllByRole("subreddit");
+    const subredditElements = screen.getAllByTestId("subreddit");
     expect(subredditElements).toHaveLength(subreddits.length);
     subredditElements.forEach((subreddit, index) => {
       expect(subreddit).toHaveTextContent(subreddits[index].name);

@@ -20,9 +20,6 @@ function App() {
     return searchParams.get("searchTerm");
   }, [searchParams]);
 
-  const errorMessage =
-    (posts.length === 0 && `No posts found for ${searchTerm}`) || postError;
-
   useEffect(() => {
     dispatch(
       fetchPosts({ subreddit: subredditEndpoint, query: searchTerm || "new" }),
@@ -43,7 +40,8 @@ function App() {
 
         {!isLoadingPosts && (postError || posts.length === 0) && (
           <p className="w-full text-center text-2xl text-[#6f6f6f] font-bold">
-            {errorMessage}
+            {(posts.length === 0 && `No posts found for ${searchTerm}`) ||
+              postError}
           </p>
         )}
 

@@ -31,7 +31,7 @@ export function PostCard({ post }: { post: Post }) {
 
   return (
     <div
-      role="post"
+      data-testid="post-card"
       className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md hover:shadow-xl rounded-lg"
     >
       <div className="flex flex-col items-center w-14">
@@ -65,7 +65,10 @@ export function PostCard({ post }: { post: Post }) {
       </div>
 
       <div className="flex flex-col w-full">
-        <h3 className="text-[#444444] font-bold text-lg leading-tight mb-3">
+        <h3
+          data-testid="post-title"
+          className="text-[#444444] font-bold text-lg leading-tight mb-3"
+        >
           {post.title}
         </h3>
         {post.pictureUrl && !hasPhotoError ? (
