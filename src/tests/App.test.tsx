@@ -68,4 +68,24 @@ describe("App Integration Tests", () => {
       expect(screen.getByText("todayilearned")).toHaveClass("bg-indigo-400");
     });
   });
+  it("should show error message on server error", async () => {
+    const user = userEvent.setup();
+    server.use(
+      http.get("https://www.reddit.com/*.json", () => {
+        return HttpResponse.json({ message: "Server error" }, { status: 500 });
+      }),
+    );
+
+    render(<App />);
+
+    await user.type(screen.getByPlaceholderText("Search"), "python");
+    await user.keyboard("{Enter}");
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/No posts found for python/i),
+      ).toBeInTheDocument();
+      expect(screen.queryByTestId("post-card")).not.toBeInTheDocument();
+    });
+  });
 });

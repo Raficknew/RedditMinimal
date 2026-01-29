@@ -100,39 +100,3 @@ export const mockRedditPost2Response = {
     ],
   },
 };
-
-export const mockCommentsResponse = [
-  {
-    data: { children: [] },
-  },
-  {
-    data: {
-      children: [
-        {
-          data: {
-            id: "comm_1",
-            author: "janusz_kodu",
-            body: "Mega pomocny post, dzięki!",
-            created_utc: 1706448000,
-          },
-        },
-        {
-          data: {
-            id: "comm_2",
-            author: "grazyna_reacta",
-            body: "U mnie nie działa, co robię źle?",
-            created_utc: 1706448100,
-          },
-        },
-        {
-          data: {
-            id: "comm_3",
-            author: "tester_pro",
-            body: "Sprawdź czy masz zainstalowane MSW.",
-            created_utc: 1706448200,
-          },
-        },
-      ],
-    },
-  },
-];
