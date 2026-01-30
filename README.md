@@ -1,7 +1,5 @@
 # Reddit Minimal
 
-[![Node.js CI](https://github.com/yourusername/RedditMinimal/actions/workflows/pull_request.yml/badge.svg)](https://github.com/yourusername/RedditMinimal/actions)
-
 A minimalist Reddit client built with React, TypeScript, and Redux Toolkit. Browse Reddit posts, search across subreddits, and view comments with a clean, responsive interface.
 
 ![React](https://img.shields.io/badge/React-19.2.0-blue)
@@ -18,6 +16,18 @@ A minimalist Reddit client built with React, TypeScript, and Redux Toolkit. Brow
 - **Responsive Design**: Fully responsive UI built with Tailwind CSS
 - **Loading States**: Skeleton loaders for smooth user experience
 - **Type-Safe**: Built with TypeScript for reliability and maintainability
+
+## � Screenshots
+
+### Posts View
+
+![Posts View](./public/ReadmePost.png)
+_Browse posts from any subreddit with search functionality_
+
+### Comments View
+
+![Comments View](./public/ReadmeComments.png)
+_Expand posts to view comments and engage with discussions_
 
 ## 🚀 Quick Start
 
@@ -53,6 +63,8 @@ npm run dev
 
 ### Browsing Posts
 
+![Posts Example](./public/ReadmePost.png)
+
 The home page displays posts from `/r/popular` by default. Posts show:
 
 - Title and author
@@ -81,6 +93,8 @@ Click any subreddit category in the sidebar to browse:
 - And more...
 
 ### Viewing Comments
+
+![Comments Example](./public/ReadmeComments.png)
 
 Click on a post to expand and view the top 20 comments. Comments display:
 
@@ -124,30 +138,30 @@ src/
 
 **Core:**
 
-- React 19.2 - UI library
-- TypeScript 5.9 - Type safety
-- Vite 7.2 - Build tool and dev server
+- React 19.2
+- TypeScript 5.9
+- Vite 7.2
 
 **State Management:**
 
-- Redux Toolkit 2.11 - Global state management
-- React Redux 9.2 - React bindings for Redux
+- Redux Toolkit 2.11
+- React Redux 9.2
 
 **Styling:**
 
-- Tailwind CSS 4.1 - Utility-first CSS framework
-- HugeIcons - Icon library
+- Tailwind CSS 4.1
+- HugeIcons
 
 **Testing:**
 
-- Vitest 4.0 - Unit testing framework
-- Testing Library - React component testing
-- MSW 2.12 - API mocking for tests
+- Vitest 4.0
+- Testing Library
+- MSW 2.12
 
 **Code Quality:**
 
-- ESLint 9 - Linting
-- TypeScript ESLint 8 - TypeScript-specific linting rules
+- ESLint 9
+- TypeScript ESLint 8
 
 ### Running Tests
 
@@ -178,26 +192,3 @@ This application uses the public Reddit JSON API:
 - **Comments**: `https://www.reddit.com/comments/{postId}.json?limit=20`
 
 No authentication required for read-only access.
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how to get started:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and add tests
-4. Run tests: `npm test`
-5. Run linter: `npm run lint`
-6. Commit your changes: `git commit -m 'Add amazing feature'`
-7. Push to the branch: `git push origin feature/amazing-feature`
-8. Open a Pull Request
-
-### Development Guidelines
-
-- Write tests for new features
-- Follow existing code style and conventions
-- Keep components small and focused
-- Use TypeScript types consistently
-- Update documentation as needed
-
-Built with using React, TypeScript, and Redux Toolkit
