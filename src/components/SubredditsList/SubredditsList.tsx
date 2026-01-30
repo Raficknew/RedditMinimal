@@ -14,19 +14,20 @@ export function SubredditsList({
   return (
     <aside className="flex max-h-300 flex-col w-full md:w-125 p-4 bg-white shadow-lg">
       <h2 className="text-2xl text-[#444444] font-semibold">Subreddits</h2>
-      {subreddits.map((subreddit) => (
-        <Subreddit
-          key={subreddit.name}
-          selected={selectedSubreddit === subreddit.endpoint}
-          onClick={() => onSubredditClick(subreddit.endpoint)}
-          subreddit={subreddit}
-        />
-      ))}
+      {subreddits.length > 0 &&
+        subreddits.map((subreddit) => (
+          <Subreddit
+            key={subreddit.name}
+            selected={selectedSubreddit === subreddit.endpoint}
+            onClick={() => onSubredditClick(subreddit.endpoint)}
+            subreddit={subreddit}
+          />
+        ))}
     </aside>
   );
 }
 
-function Subreddit({
+export function Subreddit({
   subreddit,
   selected,
   onClick,
@@ -37,6 +38,7 @@ function Subreddit({
 }) {
   return (
     <div
+      data-testid="subreddit"
       onClick={onClick}
       className={cn(
         "flex items-center cursor-pointer h-13 hover:bg-gray-100 gap-2",

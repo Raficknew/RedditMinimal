@@ -26,13 +26,14 @@ export function PostCard({ post }: { post: Post }) {
   const [hasPhotoError, setHasPhotoError] = useState(false);
 
   const fetchComments = () => {
-    if (postComments.length === 0) {
-      dispatch(fetchCommentsForPostById(post.id));
-    }
+    dispatch(fetchCommentsForPostById(post.id));
   };
 
   return (
-    <div className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md hover:shadow-xl rounded-lg">
+    <div
+      data-testid="post-card"
+      className="flex gap-3 md:gap-6 p-4 w-full bg-white shadow-md hover:shadow-xl rounded-lg"
+    >
       <div className="flex flex-col items-center w-14">
         <HugeiconsIcon
           onClick={() => setIsLiked((prev) => (prev === true ? null : true))}
@@ -40,6 +41,7 @@ export function PostCard({ post }: { post: Post }) {
             "cursor-pointer transition-colors",
             isLiked === true && "text-green-400",
           )}
+          data-testid="up-vote-arrow"
           icon={ArrowUp02Icon}
         />
         <p
@@ -57,19 +59,23 @@ export function PostCard({ post }: { post: Post }) {
             "cursor-pointer transition-colors",
             isLiked === false && "text-red-400",
           )}
+          data-testid="down-vote-arrow"
           icon={ArrowDown02Icon}
         />
       </div>
 
       <div className="flex flex-col w-full">
-        <h3 className="text-[#444444] font-bold text-lg leading-tight mb-3">
+        <h3
+          data-testid="post-title"
+          className="text-[#444444] font-bold text-lg leading-tight mb-3"
+        >
           {post.title}
         </h3>
         {post.pictureUrl && !hasPhotoError ? (
           <div className="w-full mb-4 overflow-hidden rounded-md">
             <img
               src={post.pictureUrl}
-              alt={post.title}
+              alt="image for post"
               onError={() => setHasPhotoError(true)}
               className="w-full max-h-128 object-contain"
             />
@@ -85,23 +91,28 @@ export function PostCard({ post }: { post: Post }) {
             </p>
             <p className="text-gray-400 text-center">{post.postDate}</p>
 
-            <div
+            <button
               className={cn(
                 "flex items-center justify-end gap-1 cursor-pointer transition-colors hover:text-blue-700",
                 showComments && "text-blue-700 font-bold",
               )}
               onClick={() => {
-                fetchComments();
+                if (postComments.length === 0) {
+                  fetchComments();
+                }
                 setShowComments((prev) => !prev);
               }}
             >
               <HugeiconsIcon icon={Comment02Icon} size={16} />
               <span>{post.commentsCount}</span>
-            </div>
+            </button>
           </div>
         </div>
         {showComments && (
-          <div className="flex flex-col space-y-4">
+          <div
+            data-testid="comments-section"
+            className="flex flex-col space-y-4"
+          >
             {isLoadingComments &&
               postComments.length === 0 &&
               Array.from({ length: 5 }).map((_, i) => (
