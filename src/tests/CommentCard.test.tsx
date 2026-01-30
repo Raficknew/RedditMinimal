@@ -28,14 +28,11 @@ describe("CommentCard", () => {
     expect(dateElement).toBeInTheDocument();
   });
   it("should display long comment content correctly", () => {
-    render(
-      <CommentCard
-        comment={{
-          ...mockComment,
-          content: veryLongContent,
-        }}
-      />,
-    );
+    const mockLongComment: Comment = {
+      ...mockComment,
+      content: veryLongContent,
+    };
+    render(<CommentCard comment={mockLongComment} />);
 
     const longContentElement = screen.getByText(veryLongContent);
 

@@ -98,7 +98,6 @@ export function PostCard({ post }: { post: Post }) {
               )}
               onClick={() => {
                 if (postComments.length === 0) {
-                  console.log("called");
                   fetchComments();
                 }
                 setShowComments((prev) => !prev);

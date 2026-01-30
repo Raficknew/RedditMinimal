@@ -9,8 +9,8 @@ describe("postSlice", () => {
     postError: false,
   };
 
-  it("should return the initial state when an unknown action is dispatched", () => {
-    const result = postReducer(undefined, { type: "unknown" });
+  it("should return the initial state when undefined is passed", () => {
+    const result = postReducer(undefined, { type: "" });
     expect(result).toEqual(initialState);
   });
 
@@ -77,11 +77,14 @@ describe("postSlice", () => {
       type: fetchPosts.fulfilled.type,
       payload: mockPosts,
     };
-    let state = postReducer({ ...initialState, isLoadingPosts: true }, action);
 
-    expect(state.isLoadingPosts).toBe(false);
-    expect(state.posts).toEqual(mockPosts);
-    expect(state.postError).toBe(false);
+    const state = postReducer(initialState, action);
+
+    expect(state).toEqual({
+      isLoadingPosts: false,
+      posts: mockPosts,
+      postError: false,
+    });
 
     const newMockPosts: Post[] = [
       {
@@ -100,10 +103,10 @@ describe("postSlice", () => {
       payload: newMockPosts,
     };
 
-    state = postReducer({ ...initialState, isLoadingPosts: true }, newAction);
-
-    expect(state.isLoadingPosts).toBe(false);
-    expect(state.posts).toEqual(newMockPosts);
-    expect(state.postError).toBe(false);
+    expect(postReducer(state, newAction)).toEqual({
+      isLoadingPosts: false,
+      posts: newMockPosts,
+      postError: false,
+    });
   });
 });

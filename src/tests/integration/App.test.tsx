@@ -1,12 +1,12 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
-import App from "../App";
-import { render, screen, waitFor } from "./test-utils";
+import App from "../../App";
+import { render, screen, waitFor } from "../test-utils";
 import { setupServer } from "msw/node";
 import { http, HttpResponse } from "msw";
 import {
   mockRedditPost2Response,
   mockRedditPostResponse,
-} from "./mockResponses";
+} from "../mockResponses";
 import userEvent from "@testing-library/user-event";
 
 const serverUrl = "https://www.reddit.com/*/search.json";

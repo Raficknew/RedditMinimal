@@ -1,22 +1,42 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "./test-utils";
 import "@testing-library/jest-dom/vitest";
-import type { Post } from "../types/types";
 import { PostCard } from "../components/PostCard/PostCard";
 import userEvent from "@testing-library/user-event";
 import * as hooks from "../hooks/hooks";
-
-const mockPost: Post = {
-  id: "p1",
-  author: "post_user",
-  title: "Test Post Title",
-  commentsCount: 5,
-  likesCount: 10,
-  pictureUrl: "https://example.com/image.jpg",
-  postDate: "a month ago",
-};
+import { mockPost } from "./mockResponses";
+import * as thunks from "../store/commentsSlice";
 
 describe("PostCard", () => {
+  const setupRender = () => {
+    const user = userEvent.setup();
+    render(<PostCard post={mockPost} />);
+    return {
+      user,
+      upVoteArrow: screen.getByTestId("up-vote-arrow"),
+      downVoteArrow: screen.getByTestId("down-vote-arrow"),
+      likesCountElement: screen.getByText(/10/i),
+    };
+  };
+
+  const testVoteColorChange = async (
+    colorClass: string,
+    arrowName: "upVoteArrow" | "downVoteArrow",
+  ) => {
+    const elements = setupRender();
+    const arrow = elements[arrowName];
+    const { user, likesCountElement } = elements;
+
+    expect(likesCountElement).toBeInTheDocument();
+    expect(arrow).toBeInTheDocument();
+    expect(arrow).not.toHaveClass(colorClass);
+
+    await user.click(arrow);
+
+    expect(arrow).toHaveClass(colorClass);
+    expect(likesCountElement).toHaveClass(colorClass);
+  };
+
   it("should render PostCard and display author, title, comments count, likes count, picture and post date", () => {
     render(<PostCard post={mockPost} />);
 
@@ -47,47 +67,16 @@ describe("PostCard", () => {
 
     expect(pictureElement).not.toBeInTheDocument();
   });
-  it("should change up vote arrow and likes count color to green  on click", async () => {
-    const user = userEvent.setup();
-    render(<PostCard post={mockPost} />);
-
-    const upVoteArrow = screen.getByTestId("up-vote-arrow");
-    const likesCountElement = screen.getByText(/10/i);
-
-    expect(likesCountElement).toBeInTheDocument();
-    expect(upVoteArrow).toBeInTheDocument();
-
-    expect(upVoteArrow).not.toHaveClass("text-green-400");
-
-    await user.click(upVoteArrow);
-
-    expect(upVoteArrow).toHaveClass("text-green-400");
-    expect(likesCountElement).toHaveClass("text-green-400");
+  it("should change up vote arrow and likes count color to green on click", async () => {
+    await testVoteColorChange("text-green-400", "upVoteArrow");
   });
+
   it("should change down vote arrow and likes count color to red on click", async () => {
-    const user = userEvent.setup();
-    render(<PostCard post={mockPost} />);
-
-    const downVoteArrow = screen.getByTestId("down-vote-arrow");
-    const likesCountElement = screen.getByText(/10/i);
-
-    expect(likesCountElement).toBeInTheDocument();
-    expect(downVoteArrow).toBeInTheDocument();
-
-    expect(downVoteArrow).not.toHaveClass("text-red-400");
-
-    await user.click(downVoteArrow);
-    expect(downVoteArrow).toHaveClass("text-red-400");
-    expect(likesCountElement).toHaveClass("text-red-400");
+    await testVoteColorChange("text-red-400", "downVoteArrow");
   });
   it("should change up vote arrow and likes count color from green to red on consecutive clicks", async () => {
-    const user = userEvent.setup();
-
-    render(<PostCard post={mockPost} />);
-
-    const upVoteArrow = screen.getByTestId("up-vote-arrow");
-    const downVoteArrow = screen.getByTestId("down-vote-arrow");
-    const likesCountElement = screen.getByText(/10/i);
+    const { user, upVoteArrow, downVoteArrow, likesCountElement } =
+      setupRender();
 
     expect(likesCountElement).toBeInTheDocument();
     expect(upVoteArrow).toBeInTheDocument();
@@ -101,16 +90,9 @@ describe("PostCard", () => {
     expect(downVoteArrow).toHaveClass("text-red-400");
     expect(likesCountElement).toHaveClass("text-red-400");
   });
+
   it("should change color back to default on second click of the same arrow", async () => {
-    const user = userEvent.setup();
-
-    render(<PostCard post={mockPost} />);
-
-    const upVoteArrow = screen.getByTestId("up-vote-arrow");
-    const likesCountElement = screen.getByText(/10/i);
-
-    expect(likesCountElement).toBeInTheDocument();
-    expect(upVoteArrow).toBeInTheDocument();
+    const { user, upVoteArrow, likesCountElement } = setupRender();
 
     await user.click(upVoteArrow);
     expect(upVoteArrow).toHaveClass("text-green-400");
@@ -159,10 +141,15 @@ describe("PostCard", () => {
       isLoadingComments: false,
     });
 
+    const thunkMock = vi.fn();
+    vi.spyOn(thunks, "fetchCommentsForPostById").mockReturnValue(thunkMock);
+
     render(<PostCard post={mockPost} />);
+
     await user.click(screen.getByRole("button"));
 
-    expect(dispatchMock).toHaveBeenCalledTimes(1);
+    expect(thunks.fetchCommentsForPostById).toHaveBeenCalledWith(mockPost.id);
+    expect(dispatchMock).toHaveBeenCalledWith(thunkMock);
   });
 
   it("should NOT dispatch fetchCommentsForPostById when comments button is clicked but comments already exist", async () => {
@@ -172,13 +159,25 @@ describe("PostCard", () => {
     vi.spyOn(hooks, "useAppDispatch").mockReturnValue(dispatchMock);
     vi.spyOn(hooks, "useAppSelector").mockReturnValue({
       comments: {
-        [mockPost.id]: { data: [{ id: "c1", author: "bot", content: "hi" }] },
+        [mockPost.id]: {
+          data: [
+            {
+              id: "c1",
+              author: "bot",
+              content: "hi",
+              created_utc: 1700000000,
+            },
+          ],
+        },
       },
       isLoadingComments: false,
+      commentError: null,
     });
 
     render(<PostCard post={mockPost} />);
-    await user.click(screen.getByRole("button"));
+
+    const button = screen.getByRole("button");
+    await user.click(button);
 
     expect(dispatchMock).not.toHaveBeenCalled();
   });
