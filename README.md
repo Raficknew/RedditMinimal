@@ -17,18 +17,6 @@ A minimalist Reddit client built with React, TypeScript, and Redux Toolkit. Brow
 - **Loading States**: Skeleton loaders for smooth user experience
 - **Type-Safe**: Built with TypeScript for reliability and maintainability
 
-## � Screenshots
-
-### Posts View
-
-![Posts View](./public/ReadmePost.png)
-_Browse posts from any subreddit with search functionality_
-
-### Comments View
-
-![Comments View](./public/ReadmeComments.png)
-_Expand posts to view comments and engage with discussions_
-
 ## 🚀 Quick Start
 
 ### Prerequisites
